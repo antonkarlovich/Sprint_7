@@ -10,7 +10,7 @@ import static io.restassured.RestAssured.given;
 
 public class OrderClient extends Client {
 
-    private static final String CREATE_ORDER_URI = BASE_URI + "orders";
+    private static final String CREATE_ORDER_URI = "orders";
     private static final String GET_ORDER_LIST = BASE_URI + "orders";
     private static final String CANCEL_ORDER_URI = BASE_URI + "orders/cancel";
 

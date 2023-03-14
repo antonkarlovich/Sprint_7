@@ -48,11 +48,9 @@ public class OrderWithParamTest {
     @Description("Проверяем корректность размещения заказа с самокатами разных цветов")
     public void createOrderScootersWithDifferentColors() {
         Order order = new Order(color);
-        track = orderClient.create(order)
+        orderClient.create(order)
                 .assertThat()
                 .statusCode(SC_CREATED)
-                .body("track", is(notNullValue()))
-                .extract()
-                .path("track");
+                .body("track", is(notNullValue()));
     }
 }

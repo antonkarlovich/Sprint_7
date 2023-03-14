@@ -9,18 +9,17 @@ import static io.restassured.RestAssured.given;
 
 public class CourierClient extends Client {
 
-    private static final String COURIER_URI = BASE_URI + "courier/";
+    private static final String COURIER_URI = "courier/";
 
     @Step("Create courier {courier}")
     public ValidatableResponse create(Courier courier) {
         return given()
                 .spec(getSpec())
-                .body(courier).log().all()
+                .body(courier)
                 .when()
                 .post(COURIER_URI)
-                .then().log().all();
+                .then();
     }
-
 
     @Step("Login as {courierCredentials}")
     public ValidatableResponse login(CourierCredentials courierCredentials) {
@@ -30,6 +29,23 @@ public class CourierClient extends Client {
                 .when()
                 .post(COURIER_URI + "login/")
                 .then();
+    }
+
+    //проблема была в том, что id возвращается только когда залогиниваешься)
+    //при создании курьера id не возвращается. Поэтому вот такой костыль:
+    //если курьер создается, то я его удаляю, и дальше проверка упадет в тестовом классе
+    //больше ничего не смог придумать(
+    @Step("Create and login {courier}")
+    public ValidatableResponse createAndLogin(Courier courier) {
+        ValidatableResponse createResponse = create(courier);
+        int statusCode = createResponse.extract().statusCode();
+
+        if (statusCode == 201) {
+            ValidatableResponse loginResponse = login(CourierCredentials.from(courier));
+            int courierId = loginResponse.extract().path("id");
+            delete(courierId);
+        }
+        return createResponse;
     }
 
     @Step("Delete courier {id}")

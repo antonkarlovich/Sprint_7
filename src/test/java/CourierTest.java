@@ -54,7 +54,8 @@ public class CourierTest {
     public void notNotBeCreatedTwoEqualCourier() {
         Courier courier = new Courier("Sergay", "dfgdf", "Сергей");
         courierClient.create(courier);
-        courierClient.create(courier)
+        idCourier = courierClient.login(CourierCredentials.from(courier)).extract().path("id");
+        courierClient.createAndLogin(courier)
                 .statusCode(SC_CONFLICT)
                 .and()
                 .assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
@@ -65,7 +66,7 @@ public class CourierTest {
     @Description("Проверка невозможности создания курьера без логина")
     public void notBeCreatedWithoutLogin() {
         Courier courier = new Courier("", "dfgаdf", "Иван");
-        courierClient.create(courier)
+        courierClient.createAndLogin(courier)
                 .assertThat()
                 .statusCode(SC_BAD_REQUEST)
                 .and()
@@ -77,7 +78,7 @@ public class CourierTest {
     @Description("Проверка невозможности создания курьера без пароля")
     public void notBeCreatedWithoutPassword() {
         Courier courier = new Courier("Petr", "", "Петр");
-        courierClient.create(courier)
+        courierClient.createAndLogin(courier)
                 .assertThat()
                 .statusCode(SC_BAD_REQUEST)
                 .and()
@@ -87,12 +88,17 @@ public class CourierTest {
     @Test
     @DisplayName("Создание курьера без имени")
     @Description("Проверка возможности создания курьера без имени")
-    public void notBeCreatedWithoutFirstName() {
+    public void courierCanBeCreateWithoutFirstName() {
         Courier courier = CourierGenerator.getRandomWithoutFirstName();
         courierClient.create(courier)
                 .assertThat()
                 .statusCode(SC_CREATED)
                 .and()
                 .assertThat().body("ok", is(true));
+
+        idCourier = courierClient.login(CourierCredentials.from(courier))
+                .extract()
+                .path("id");
+        assertThat(idCourier, notNullValue());
     }
 }
