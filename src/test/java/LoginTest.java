@@ -16,9 +16,9 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LoginTest {
-    private CourierClient courierClient;
+    private static CourierClient courierClient;
     Courier courier;
-    private int idCourier;
+    private static int idCourier;
 
 
     @Before
@@ -28,8 +28,8 @@ public class LoginTest {
         courierClient.create(courier);
     }
 
-    @After
-    public void cleanUp() {
+    @AfterClass
+    public static void cleanUp() {
         if (idCourier != 0) {
             courierClient.delete(idCourier);
         }

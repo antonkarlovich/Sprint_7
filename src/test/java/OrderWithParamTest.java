@@ -47,7 +47,8 @@ public class OrderWithParamTest {
     @DisplayName("Оформление заказа с разными цветами самокатов")
     @Description("Проверяем корректность размещения заказа с самокатами разных цветов")
     public void createOrderScootersWithDifferentColors() {
-        Order order = new Order(color);
+        Order order = new Order("Aleksey", "Ivanov", "Promishlennay, 3", "Academichescay", "+7-707-777-77-77", 3,
+                "2023-03-13", "домофон не работает", color);
         orderClient.create(order)
                 .assertThat()
                 .statusCode(SC_CREATED)

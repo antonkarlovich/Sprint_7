@@ -12,16 +12,17 @@ public class Order {
     private String deliveryDate;
     private String comment;
     private List<String> color;
-
-    public Order(List<String> color) {
-        this.firstName = "Алексей";
-        this.lastName = "Иванов";
-        this.address = "Промышленная, 3";
-        this.metroStation = "Академическая";
-        this.phone = "+7-707-777-77-77";
-        this.rentTime = 3;
-        this.deliveryDate = "2023-03-13";
-        this.comment = "домофон не работает";
+    
+    public Order(String firstName, String lastName, String address, String metroStation, String phone,
+                 int rentTime, String deliveryDate, String comment, List<String> color) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.metroStation = metroStation;
+        this.phone = phone;
+        this.rentTime = rentTime;
+        this.deliveryDate = deliveryDate;
+        this.comment = comment;
         this.color = color;
     }
 
