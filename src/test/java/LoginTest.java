@@ -5,10 +5,7 @@ import io.qameta.allure.junit4.DisplayName;
 import couriermodel.Courier;
 import couriermodel.CourierCredentials;
 import couriermodel.CourierGenerator;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -17,12 +14,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LoginTest {
     private static CourierClient courierClient;
-    Courier courier;
+    private static Courier courier;
     private static int idCourier;
 
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         courierClient = new CourierClient();
         courier = CourierGenerator.getRandom();
         courierClient.create(courier);
