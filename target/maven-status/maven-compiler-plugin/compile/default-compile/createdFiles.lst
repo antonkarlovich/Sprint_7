@@ -1,0 +1,7 @@
+couriermodel\CourierGenerator.class
+couriermodel\Courier.class
+client\base\Client.class
+client\OrderClient.class
+client\CourierClient.class
+couriermodel\CourierCredentials.class
+ordermodel\Order.class
